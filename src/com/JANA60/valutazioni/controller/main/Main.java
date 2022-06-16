@@ -13,36 +13,65 @@ public class Main {
 		 */
 
 		Scanner keyboard = new Scanner(System.in);
-		int promotedStudents=0;
+		String repeat;
 		
-		System.out.println("Welcome to the student processing app.\nHow many students would you like to process?");
-		int nStudents= Integer.parseInt(keyboard.nextLine()); //l'utente decide quanti studenti registrare
-		
-		Student[] students = new Student[nStudents];
-		
-		for (int i=0; i<students.length;i++)
+		do
 		{
-			int id= i+1;//id prograssivo dato dal vettore
-			System.out.println("This student received id n° " +(i+1));
-			System.out.println("Please insert how many days the student with id " +id+ " has been absent:");
-			int absenceDays= Integer.parseInt(keyboard.nextLine()); //da input do il numero di giorni di assenza, non la percentuale
-			System.out.println("Please insert the grade average of the student with id " +id);
-			double average= Double.parseDouble(keyboard.nextLine());
+			int promotedStudents=0;
 			
-			Student s = new Student(id, absenceDays, average);
-			students[i]= s;
+			System.out.println("Welcome to the student processing app.\nHow many students would you like to process?");
+			int nStudents= Integer.parseInt(keyboard.nextLine()); //l'utente decide quanti studenti registrare
 			
-			if (students[i].isPromoted()) //calcolo numero di studenti promossi
-				promotedStudents++;
+			Student[] students = new Student[nStudents];
+			int absenceDays;
+			double average;
 			
-		}
+			for (int i=0; i<students.length;i++)
+			{
+				int id= i+1;//id prograssivo dato dal vettore
+				System.out.println("This student received id n° " +(i+1));
+				do
+				{
+					System.out.println("Please insert how many days the student with id " +id+ " has been absent:");
+					absenceDays= Integer.parseInt(keyboard.nextLine()); //da input do il numero di giorni di assenza, non la percentuale
+					if(absenceDays<0 && absenceDays>Student.getSchooldays())
+						System.out.println("A student can't be absent for more than " +Student.getSchooldays()+ " days.");
+				}while(absenceDays<0 && absenceDays>Student.getSchooldays());
+				do
+				{
+					System.out.println("Please insert the grade average of the student with id " +id);
+					average= Double.parseDouble(keyboard.nextLine());
+					if(average<0.0 && average > 5.0)
+						System.out.println("GPA goes from 0 to 5, it can't be outside this range of values.");
+				}while(average<0.0 && average > 5.0);
+				
+				Student s = new Student(id, absenceDays, average);
+				students[i]= s;
+				
+				if (students[i].isPromoted()) //calcolo numero di studenti promossi
+					promotedStudents++;
+				
+			}
+			
+			
+			
+			for (int j=0; j<students.length;j++)
+				System.out.println(students[j].toString());
+			
+			System.out.println("The total number of promoted students is: "+promotedStudents);
 		
+			do
+			{
+				System.out.println("would you like to process more students?");
+				
+				repeat=keyboard.nextLine();
+				
+				if(!repeat.equalsIgnoreCase("yes") && !repeat.equalsIgnoreCase("no"))
+					System.out.println("Wrong input. Please insert yes or no.");
+				
+			}while(!repeat.equalsIgnoreCase("yes") && !repeat.equalsIgnoreCase("no"));
 		
-		
-		for (int j=0; j<students.length;j++)
-			System.out.println(students[j].toString());
-		
-		System.out.println("The total number of promoted students is: "+promotedStudents);
+		}while(!repeat.equalsIgnoreCase("yes") && !repeat.equalsIgnoreCase("no"));
 		
 		keyboard.close();
 	}

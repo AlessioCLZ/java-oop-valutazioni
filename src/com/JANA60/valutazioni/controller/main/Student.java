@@ -32,7 +32,7 @@ public class Student
 	
 	double getAbsencePercentage() //calcolo della percentuale di giorni di assenze usando i dati in mio possesso
 	{
-		return absenceDays * (100/SCHOOLDAYS);
+		return absenceDays * (100.0/SCHOOLDAYS);
 	}
 	
 	boolean isPromoted() //è promosso se ha poche assenze o se ha un buon GPA
@@ -65,6 +65,10 @@ public class Student
 			res= "The student with ID number " +id+ " has failed, since he has a GPA of " +gradeAverage+ " points and was absent the " +getAbsencePercentage()+ " of the total school days.";
 
 		return res;
+	}
+
+	public static int getSchooldays() {
+		return SCHOOLDAYS;
 	}
 	
 	
